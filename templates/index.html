@@ -7,6 +7,8 @@
             <p>{{ post['created'] }}</p>
             <h2>{{ post['title'] }}</h2>
             <p>{{ post['content'] }}</p>
+            {# This is the link for editing and deleting posts. #}
+            <a href="{{ url_for('edit', id=post['id']) }}">Edit</a>
         </div>
     {% endfor %}
 {% endblock %}
