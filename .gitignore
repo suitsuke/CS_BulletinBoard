@@ -1,0 +1,14 @@
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore environment directory (if using virtual environments)
+venv/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore log files
+*.log
