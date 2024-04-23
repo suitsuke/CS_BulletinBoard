@@ -1,5 +1,8 @@
 import sqlite3
-from flask import Flask, render_template, request, url_for, flash, redirect, abort
+from flask import Flask, render_template, request, url_for, flash, redirect, abort, session
+#hash password to not store it in plaintext
+from werkzeug.security import check_password_hash, generate_password_hash
+
 
 app = Flask(__name__)
 #this is needed for csrf
@@ -81,3 +84,38 @@ def delete(id):
     conn.close()
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
+
+#
+#
+#login functionality
+@app.route("/login",methods=["POST"])
+def login():
+    username = request.form["username"]
+    password = request.form["password"]
+
+    #check username and password:
+    sql = "SELECT id, password FROM users WHERE username=:username"
+    conn = get_db_connection()
+    result = conn.execute(sql, {"username":username})
+    user = result.fetchone()  #user olio
+    
+    if not user: #if fetches None
+        flash('Invalid username!')
+    else:
+        user_id, hash_value = user  # Unpack the user tuple
+        if check_password_hash(hash_value, password):
+            flash('user ok')
+            # TODO: correct username and password
+        else:
+            flash('Invalid password!')
+    session["username"] = username
+    return redirect("/")
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
+
+@app.route('/login_page/')
+def login_page():
+    return render_template('login_page.html')
