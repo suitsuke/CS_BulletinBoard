@@ -2,8 +2,8 @@
 Activate virtual environment:
 source venv/bin/activate
 
-To initialize an empty database with 2 blog posts:
-python init_db.py
+To initialize an empty database with 2 blog posts, 1 normal user, 1 admin:
+python3 init_db.py
 
 export FLASK_APP=app
 export FLASK_ENV=development

@@ -22,7 +22,7 @@ hash_value = generate_password_hash('kissa') #hash the password to not store in 
 cur.execute("INSERT INTO users (id, username, password, admin) VALUES (?, ?, ?, ?)",
             (1, 'maija', hash_value, 0)
             )
-hash_value = generate_password_hash('admin') #hash the password to not store in plaintext
+hash_value = generate_password_hash('Secur3Passwor#') #hash the password to not store in plaintext
 cur.execute("INSERT INTO users (id, username, password, admin) VALUES (?, ?, ?, ?)",
             (0, 'admin', hash_value, 1)
             )
