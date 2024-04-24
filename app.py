@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 #this is needed for csrf
-app.config['SECRET_KEY'] = 'e415b71745b847d3b8c1750411da3c681d1dbadb92105677' 
+#app.config['SECRET_KEY'] = 'e415b71745b847d3b8c1750411da3c681d1dbadb92105677' 
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
