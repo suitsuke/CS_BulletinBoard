@@ -22,8 +22,32 @@ def get_post(post_id):
         abort(404)
     return post
 
+def is_logged_in():
+    return "username" in session
+
+def is_admin_user():
+    #should return true or false
+    #look at database for the current logged in user
+    if "username" not in session:
+        return False  # User is not logged in, so not an admin
+
+    username = session["username"]
+
+    conn = get_db_connection()
+    result = conn.execute('SELECT admin FROM users WHERE username = ?', (username,))
+    user = result.fetchone()
+    conn.close()
+
+    if user is None:
+        return False  # User does not exist in the database, so not an admin
+
+    return user['admin'] == 1
+
 @app.route('/')
 def index():
+   #if not is_logged_in():
+    #    return redirect(url_for('login_page'))
+    
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
@@ -32,6 +56,9 @@ def index():
 
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
+    if not is_logged_in():
+        return redirect(url_for('login_page'))
+
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
@@ -52,6 +79,13 @@ def create():
 
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))
 def edit(id):
+    if not is_logged_in():
+        return redirect(url_for('login_page'))
+
+    if not is_admin_user():
+        flash('Insufficient user permissions.')
+        return redirect(url_for('index'))
+
     post = get_post(id)
 
     if request.method == 'POST':
@@ -100,16 +134,19 @@ def login():
     user = result.fetchone()  #user olio
     
     if not user: #if fetches None
-        flash('Invalid username!')
+        flash('Invalid username or password!')
+        return redirect("/login_page")
     else:
         user_id, hash_value = user  # Unpack the user tuple
-        if check_password_hash(hash_value, password):
-            flash('user ok')
-            # TODO: correct username and password
-        else:
-            flash('Invalid password!')
-    session["username"] = username
-    return redirect("/")
+
+    if check_password_hash(hash_value, password):
+        flash('User ok')
+        session["username"] = username
+        return redirect("/")
+    else:
+        flash('Invalid username or password!')
+        return redirect("/login_page")
+
 
 @app.route("/logout")
 def logout():

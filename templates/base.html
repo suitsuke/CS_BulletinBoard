@@ -27,10 +27,13 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">FlaskApp</a>
-        <a href="{{ url_for('create') }}">Create</a>
-        <a href="{{ url_for('login_page') }}">Login</a>
-        <a href="#">About</a>
+        <a href="{{ url_for('index') }}">Guestbook</a>
+        <a href="{{ url_for('create') }}">Write</a>
+        {% if 'username' in session %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login_page') }}">Login</a>
+    {% endif %}
     </nav>
     <hr>
     <div class="content">
