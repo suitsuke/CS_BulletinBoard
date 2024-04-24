@@ -29,7 +29,7 @@
     <nav>
         <a href="{{ url_for('index') }}">Guestbook</a>
         <a href="{{ url_for('create') }}">Write</a>
-        {% if 'username' in session %}
+        {% if request.cookies["username"] %}
             <a href="{{ url_for('logout') }}">Logout</a>
         {% else %}
             <a href="{{ url_for('login_page') }}">Login</a>

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-{% if session.username %}
-<p>You are logged in with username {{ session.username }}</p>
+{% if request.cookies["username"] %}
+<p>You are logged in with username {{ request.cookies["username"] }}</p>
 <a href="/logout">Logout</a>
 {% else %}
 <form action="/login" method="POST">

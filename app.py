@@ -1,12 +1,10 @@
 import sqlite3
-from flask import Flask, render_template, request, url_for, flash, redirect, abort, session
+from flask import Flask, render_template, request, url_for, flash, redirect, abort, make_response
 #hash password to not store it in plaintext
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
-#this is needed for csrf
-#app.config['SECRET_KEY'] = 'e415b71745b847d3b8c1750411da3c681d1dbadb92105677' 
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -23,15 +21,15 @@ def get_post(post_id):
     return post
 
 def is_logged_in():
-    return "username" in session
+    return "username" in request.cookies and request.cookies["username"] != ""
 
 def is_admin_user():
     #should return true or false
     #look at database for the current logged in user
-    if "username" not in session:
+    if "username" not in request.cookies:
         return False  # User is not logged in, so not an admin
 
-    username = session["username"]
+    username = request.cookies["username"]
 
     conn = get_db_connection()
     result = conn.execute('SELECT admin FROM users WHERE username = ?', (username,))
@@ -64,9 +62,11 @@ def create():
         content = request.form['content']
 
         if not title:
-            flash('Title is required!')
+            pass
+            #flash('Title is required!')
         elif not content:
-            flash('Content is required!')
+            pass
+            #flash('Content is required!')
         else:
             conn = get_db_connection()
             # use ? dynamical substitution to avoid injection attacks, instead of python operators
@@ -83,7 +83,7 @@ def edit(id):
         return redirect(url_for('login_page'))
 
     if not is_admin_user():
-        flash('Insufficient user permissions.')
+        #flash('Insufficient user permissions.')
         return redirect(url_for('index'))
 
     post = get_post(id)
@@ -93,10 +93,12 @@ def edit(id):
         content = request.form['content']
 
         if not title:
-            flash('Title is required!')
+            pass
+            #flash('Title is required!')
 
         elif not content:
-            flash('Content is required!')
+            pass
+            #flash('Content is required!')
 
         else:
             conn = get_db_connection()
@@ -116,42 +118,49 @@ def delete(id):
     conn.execute('DELETE FROM posts WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    flash('"{}" was successfully deleted!'.format(post['title']))
+    #flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
 
 #
 #
 #login functionality
-@app.route("/login",methods=["POST"])
+@app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    #check username and password:
+    # Check username and password
     sql = "SELECT id, password FROM users WHERE username=:username"
     conn = get_db_connection()
-    result = conn.execute(sql, {"username":username})
-    user = result.fetchone()  #user olio
-    
-    if not user: #if fetches None
-        flash('Invalid username or password!')
+    result = conn.execute(sql, {"username": username})
+    user = result.fetchone()
+
+    if not user:
+        #flash('Invalid username or password!')
         return redirect("/login_page")
     else:
         user_id, hash_value = user  # Unpack the user tuple
 
     if check_password_hash(hash_value, password):
-        flash('User ok')
-        session["username"] = username
-        return redirect("/")
+        #flash('User ok')
+
+        # Set a cookie with the username
+        response = make_response(redirect("/"))
+        response.set_cookie("username", username)
+
+        return response
     else:
-        flash('Invalid username or password!')
+        #flash('Invalid username or password!')
         return redirect("/login_page")
 
 
 @app.route("/logout")
 def logout():
-    del session["username"]
-    return redirect("/")
+    # Delete the username cookie
+    response = make_response(redirect("/"))
+    response.set_cookie("username", "", expires=0)
+    return response
+
 
 @app.route('/login_page/')
 def login_page():
