@@ -1,21 +1,26 @@
 # README
 
 ## Installation
-Activate virtual environment:
+1. Create a virtual environment:
+``` python3 -m venv venv```
+2. Activate virtual environment:
 ``` source venv/bin/activate ```
+3. In the virtual environment, install flask:
+```pip install flask```
 
-To initialize an empty database with 2 blog posts, 1 normal user, 1 admin:
+4. Initialize an empty database with 2 posts, 1 normal user, 1 admin:
 ```python3 init_db.py```
 
-To start the flask app:
+5. Start the flask app:
 ```
 export FLASK_APP=app
 export FLASK_ENV=development
 flask run
 ```
 
+_2. Note: For Windows, activating virtual environments might work with ```.\venv\Scripts\activate```_
 
-After you have initialized the database, you can use 2 default users:
+6. After you have initialized the database, you can use 2 default users:
 | user | password | is admin |
 |----------|----------|----------|
 | maija| kissa | no |
@@ -24,7 +29,7 @@ After you have initialized the database, you can use 2 default users:
 ## Usage
 Server runs on http://127.0.0.1:5000/
 
-Navigate to the page in your browser and test it out.
+Navigate to the page in your browser and test it out with the accounts above (see 6).
 
 
 ## Credits and information:

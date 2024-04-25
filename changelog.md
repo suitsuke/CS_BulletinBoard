@@ -22,6 +22,6 @@ xss-ongelma lisätty
 sql-injectio ongelma lisätty
 hashed pw ja default configuration lisätty
 essee
-tunteja: 3 (12.30 asti)
+tunteja: 4,5
 
 
