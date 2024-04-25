@@ -11,9 +11,10 @@ To start the flask app:
 ```flask run```
 
 After you have initialized the database, you can use 2 default users:
-```user / password / is admin```
-```maija / kissa / no```
-```admin / admin / yes ```
+| user | password | is admin |
+|----------|----------|----------|
+| maija| kissa | no |
+| admin | admin | yes |
 
 ## Usage
 Server runs on http://127.0.0.1:5000/
