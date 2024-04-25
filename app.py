@@ -63,14 +63,14 @@ def index():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Posts - FlaskApp</title>
+        <title>Messages - Bulletin Board</title>
     </head>
     <body>
         <nav>
         <span style="font-size: 3em; color: #d64161; margin-left: 50px; text-decoration: none;">
-            <a href="/">Guestbook</a>
-            <a href="/create">Write</a>
-            <a href="/login_page">Login</a>
+            <a href="/" style="text-decoration: none; color: #d64161; ">Messages</a>
+            <a href="/create" style="text-decoration: none; color: #d64161; margin-left: 50px;">Write</a>
+            <a href="/login_page" style="text-decoration: none; color: #d64161; margin-left: 50px;">Login</a>
         </span>
         </nav>
         <hr>
