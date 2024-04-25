@@ -98,15 +98,12 @@ def create():
 
         if not title:
             pass
-            #flash('Title is required!')
         elif not content:
             pass
-            #flash('Content is required!')
         else:
             conn = get_db_connection()
-            # use ? dynamical substitution to avoid injection attacks, instead of python operators
-            conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)',
-                         (title, content))
+            sql = "INSERT INTO posts (title, content) VALUES ('" + title + "', '" + content + "')"
+            conn.execute(sql)
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -118,7 +115,6 @@ def edit(id):
         return redirect(url_for('login_page'))
 
     if not is_admin_user():
-        #flash('Insufficient user permissions.')
         return redirect(url_for('index'))
 
     post = get_post(id)
@@ -129,17 +125,14 @@ def edit(id):
 
         if not title:
             pass
-            #flash('Title is required!')
 
         elif not content:
             pass
-            #flash('Content is required!')
 
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE posts SET title = ?, content = ?'
-                         ' WHERE id = ?',
-                         (title, content, id))
+            sql = 'UPDATE posts SET title = \'' + title + '\', content = \'' + content + '\' WHERE id = ' + str(id)
+            conn.execute(sql)
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
@@ -150,15 +143,12 @@ def edit(id):
 def delete(id):
     post = get_post(id)
     conn = get_db_connection()
-    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
+    conn.execute('DELETE FROM posts WHERE id = {}'.format(id))
     conn.commit()
     conn.close()
-    #flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
 
-#
-#
-#login functionality
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
@@ -171,21 +161,17 @@ def login():
     user = result.fetchone()
 
     if not user:
-        #flash('Invalid username or password!')
         return redirect("/login_page")
     else:
         user_id, hash_value = user  # Unpack the user tuple
 
     if check_password_hash(hash_value, password):
-        #flash('User ok')
-
         # Set a cookie with the username
         response = make_response(redirect("/"))
         response.set_cookie("username", username)
 
         return response
     else:
-        #flash('Invalid username or password!')
         return redirect("/login_page")
 
 

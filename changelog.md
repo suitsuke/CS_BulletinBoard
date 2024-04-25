@@ -36,7 +36,12 @@ nyt voi kirjoittaa vaikka script>alert("You have been hacked!") /script> tai muo
 - lisäksi poistetaan app.py tiedostosta index-funktion palautus ja renderöidään vaan index.html
 
 3. sql-injektio-ongelma
-
+def edit
+def create
+def delete
+Nyt käyttäjä voi injektoida esim. kirjoittaessaan viestiä otsikkoon 
+"'; DROP TABLE posts; --"
+ja tekstikenttään mitä vain, joka kaataa koko tietokannan ja etusivun.
 
 2. hashed passwords
 
