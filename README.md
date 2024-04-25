@@ -6,9 +6,12 @@ To initialize an empty database with 2 blog posts, 1 normal user, 1 admin:
 ```python3 init_db.py```
 
 To start the flask app:
-```export FLASK_APP=app```
-```export FLASK_ENV=development```
-```flask run```
+```
+export FLASK_APP=app
+export FLASK_ENV=development
+flask run
+```
+
 
 After you have initialized the database, you can use 2 default users:
 | user | password | is admin |
