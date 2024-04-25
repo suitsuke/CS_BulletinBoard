@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request, url_for, flash, redirect, abort, make_response
 #hash password to not store it in plaintext
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 
 app = Flask(__name__)
@@ -163,9 +163,10 @@ def login():
     if not user:
         return redirect("/login_page")
     else:
-        user_id, hash_value = user  # Unpack the user tuple
+        user_id, db_password = user  # Unpack the user tuple
 
-    if check_password_hash(hash_value, password):
+    if db_password == password:
+    #if check_password_hash(db_password, password):
         # Set a cookie with the username
         response = make_response(redirect("/"))
         response.set_cookie("username", username)

@@ -20,7 +20,8 @@ tunteja: 2
 
 # 25.4.2024
 xss-ongelma lisätty
-aloitetaan injektiota
+sql-injectio ongelma lisätty
+
 tunteja:
 
 # Steps to fix
@@ -44,5 +45,15 @@ Nyt käyttäjä voi injektoida esim. kirjoittaessaan viestiä otsikkoon
 ja tekstikenttään mitä vain, joka kaataa koko tietokannan ja etusivun.
 
 2. hashed passwords
-
 1. user: admin, pw: admin
+simply edit admin password to something else like Secur3Passwor#
+
+import a password hashing mechanism
+hash a password whenever one is input
+from werkzeug.security import generate_password_hash
+hash all passwords before creating them (now it is done in init_db.py)
+
+compare hash values in app.py with
+from werkzeug.security import check_password_hash
+
+
