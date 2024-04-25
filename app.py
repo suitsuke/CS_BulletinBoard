@@ -49,7 +49,44 @@ def index():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     conn.close()
-    return render_template('index.html', posts=posts)
+    # Generate HTML content for each post
+    posts_html = ""
+    for post in posts:
+        post_html = """
+        <div class='post'>
+            <p>{}</p>
+            <h2>{}</h2>
+            <p>{}</p>
+            {}
+        </div>
+        """.format(post['created'], post['title'], post['content'], '<a href="/{}/edit">Edit</a>'.format(post['id']) if is_admin_user() else '')
+        posts_html += post_html
+
+    # Final HTML content including all posts
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Posts - FlaskApp</title>
+    </head>
+    <body>
+        <nav>
+        <span style="font-size: 3em; color: #d64161; margin-left: 50px; text-decoration: none;">
+            <a href="/">Guestbook</a>
+            <a href="/create">Write</a>
+            <a href="/login_page">Login</a>
+        </span>
+        </nav>
+        <hr>
+        <div class="content">
+            {}
+        </div>
+    </body>
+    </html>
+    """.format(posts_html)
+
+    return html_content
 
 
 @app.route('/create/', methods=('GET', 'POST'))

@@ -18,7 +18,7 @@ tietokantajuttuja
 # A7:2017-Cross-Site Scripting (XSS) xss-haavoittuvuus
 data joka tallennetaan on sellainen jonka pitää näkyä muille / haitata muiden käyttäjien katselemia sivuja jotta se on ongelma
 
-# csrf-haavoittuvuus
+# csrf-haavoittuvuus OK
 ei varmenneta että postaus/request tulee oikeasti oikealta tyypiltä
 secret key flaskissa
 
