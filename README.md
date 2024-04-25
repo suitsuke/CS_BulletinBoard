@@ -18,7 +18,14 @@ export FLASK_ENV=development
 flask run
 ```
 
-_2. Note: For Windows, activating virtual environments might work with ```.\venv\Scripts\activate```_
+_Note: For Windows:_
+2. _Activating virtual environments might work with ```.\venv\Scripts\activate```_
+5. _Start the app with:_
+```
+set FLASK_APP=app.py
+set FLASK_ENV=development
+flask run
+```
 
 6. After you have initialized the database, you can use 2 default users:
 | user | password | is admin |
