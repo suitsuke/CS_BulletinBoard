@@ -43,8 +43,6 @@ def is_admin_user():
 
 @app.route('/')
 def index():
-   #if not is_logged_in():
-    #    return redirect(url_for('login_page'))
     
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
