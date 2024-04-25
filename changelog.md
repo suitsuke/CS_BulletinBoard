@@ -21,8 +21,8 @@ tunteja: 2
 # 25.4.2024
 xss-ongelma lisätty
 sql-injectio ongelma lisätty
-
-tunteja:
+hashed pw ja default configuration lisätty
+tunteja: 3 (12.30 asti)
 
 # Steps to fix
 5. csrf token sent with cookies

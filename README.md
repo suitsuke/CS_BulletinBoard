@@ -1,3 +1,5 @@
+# README
+
 ## Installation
 Activate virtual environment:
 ``` source venv/bin/activate ```
@@ -21,6 +23,7 @@ After you have initialized the database, you can use 2 default users:
 
 ## Usage
 Server runs on http://127.0.0.1:5000/
+
 Navigate to the page in your browser and test it out.
 
 
@@ -31,4 +34,5 @@ https://cybersecuritybase.mooc.fi/module-3.1
 
 Basic functionalities are from these tutorials: 
 https://www.digitalocean.com/community/tutorials/
+
 Additional information on vulnerable web apps from this course: https://hy-tsoha.github.io/materiaali/osa-4/#tietoturva 
