@@ -1,5 +1,7 @@
-LINK: link to the repository
-installation instructions if needed
+LINK: [link to the repository](https://github.com/suitsuke/CS_BulletinBoard/tree/vulnerable)
+The vulnerable branch is linked above. Fixes will be in the main branch.
+Installation instructions are found in the README.md
+In short, initialize the database and run the server.
 
 FLAW 1:
 exact source link pinpointing flaw 1...
