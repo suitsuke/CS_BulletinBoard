@@ -1,7 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, url_for, flash, redirect, abort, make_response
-#hash password to not store it in plaintext
-from werkzeug.security import check_password_hash
+from flask import Flask, render_template, request, url_for, redirect, abort, make_response
 
 
 app = Flask(__name__)
@@ -24,8 +22,7 @@ def is_logged_in():
     return "username" in request.cookies and request.cookies["username"] != ""
 
 def is_admin_user():
-    #should return true or false
-    #look at database for the current logged in user
+    # Look at database for the current logged in user
     if "username" not in request.cookies:
         return False  # User is not logged in, so not an admin
 
@@ -165,8 +162,7 @@ def login():
     else:
         user_id, db_password = user  # Unpack the user tuple
 
-    if db_password == password:
-    #if check_password_hash(db_password, password):
+    if db_password == password: # Check password
         # Set a cookie with the username
         response = make_response(redirect("/"))
         response.set_cookie("username", username)
