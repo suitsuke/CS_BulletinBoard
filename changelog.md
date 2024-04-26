@@ -22,6 +22,13 @@ xss-ongelma lisätty
 sql-injectio ongelma lisätty
 hashed pw ja default configuration lisätty
 essee
-tunteja: 4,5
+asennusohjeiden teko + testaus
+tunteja: 5,5
 
+# 26.4.2024
+vertaisarvioitu 3 muuta työtä
+tunteja: 1,5
 
+yht. tunteja 15h
+
+v. 2023 yritys djangolla: +9,5h
