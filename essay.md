@@ -6,7 +6,7 @@ This project on github has a master branch which is a fixed, secure working app.
 Installation instructions are found in the README.md
 In short, initialize the database and run the server.
 
-For the essay, I am using OWASP 2017 Top 10 and CSRF, which is a fundamental flaw allowed in the project instructions.
+For the essay, I am using OWASP 2017 Top 10.
 
 ## FLAW 1: A6:2017-Security Misconfiguration
 
@@ -61,7 +61,7 @@ Fixing this flaw means that the user input should not be rendered as is, but rat
 
 When a cookie for logging in, or authenticating the user, is sent back and forth with requests, it can be tampered with on the way. The way the code is written now, there is no way for the server to know if the request actually came from the real user. With this flaw, sessions can be hijacked by tampering with cookie session data and then gain access to user accounts. 
 
-To fix this, we will use the Flask sessions functionality instead of just looking at the stored cookies. Flask sessions have built-in functionality for using a secret key and avoiding CSRF issues. Import session into app.py, [create a secret key for authentication](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L9), and replace the affected functions with the session-functionality, which now includes the csrf authentication and the secret key: 
+To fix this, we will use the Flask sessions functionality instead of just looking at the stored cookies. Flask sessions have built-in functionality for using a secret key and avoiding issues with cookie tampering. Import session into app.py, [create a secret key for authentication](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L9), and replace the affected functions with the session-functionality, which now includes the secret key: 
 
 [Authenticating a logged in user or admin,](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L25-L34) 
 
