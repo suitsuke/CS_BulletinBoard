@@ -49,22 +49,22 @@ XSS flaws happen when untrusted data supplied by a user is included on a webpage
 Fixing this flaw means that the user input should not be rendered as is, but rather escaped or protected by some other methods. Flask uses Jinja templating for creating dynamic content for webpages, and escaping content is a built in feature in Jinja. Thus we will create a new index function, and a separate index.html file which will have the new Jinja features built in to keep everything separate and improve the structure of the web app. [The new index-function](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L47-L54) will look like this, and simply render the page using the posts.
 [In templates/index.html](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/templates/index.html) the new page will display posts using Jinja methods, that have built-in escaping. The formatting is also inherited from the base.html template using Jinja methods. Escaping the user-submitted input before displaying it causes possible malicious code now to be displayed in plaintext instead of running it.
 
-## FLAW 5: Cross Site Request Forgery (CSRF)
+## FLAW 5: A2-2017: Broken Authentication
 
-[Authenticating logged in user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L22)
+[Authenticating logged in user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L22) 
 
-[Authenticating admin user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L26-L29)
+[Authenticating admin user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L26-L29) 
 
-[Logging in a user with correct credentials](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L168)
+[Logging in a user with correct credentials](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L168) 
 
-[Logging out a user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L179)
+[Logging out a user](https://github.com/suitsuke/CS_BulletinBoard/blob/99919fac98469bf3e8f4129935dfd7b02669d64c/app.py#L179) 
 
-CSRF flaws happen when a web application doesn't authenticate that the request actually comes from the actual user. Since cookies work by storing a file on the user's computer, if they are not authenticated, anyone could edit their cookies to display the correct username and just pretend to be an admin or a logged in user without using a secret key.
+When a cookie for logging in, or authenticating the user, is sent back and forth with requests, it can be tampered with on the way. The way the code is written now, there is no way for the server to know if the request actually came from the real user. With this flaw, sessions can be hijacked by tampering with cookie session data and then gain access to user accounts. 
 
-To fix this, we will use the Flask sessions instead of just looking at the stored cookies. Flask sessions have built-in functionality for using a secret key and avoiding CSRF issues. Import session into app.py, [create a secret key for authentication](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L9), and replace the affected functions with the session-functionality, which now includes the csrf authentication and the secret key:
+To fix this, we will use the Flask sessions functionality instead of just looking at the stored cookies. Flask sessions have built-in functionality for using a secret key and avoiding CSRF issues. Import session into app.py, [create a secret key for authentication](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L9), and replace the affected functions with the session-functionality, which now includes the csrf authentication and the secret key: 
 
-[Authenticating a logged in user or admin,](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L25-L34)
+[Authenticating a logged in user or admin,](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L25-L34) 
 
-[logging in a user](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L142-L148)
+[logging in a user](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L142-L148) 
 
 [and logging out.](https://github.com/suitsuke/CS_BulletinBoard/blob/f49f0aebe0c7829bb26b2ef5c944a30b65e7f7de/app.py#L151-L154)
